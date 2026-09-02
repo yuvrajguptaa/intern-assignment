@@ -6,7 +6,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 1
+# Bug 1
 
 **How to reproduce:** Open the app. The expense list says “Newest first”. The first row is Wine (7 Mar). Board game (15 Mar) is further down.
 
@@ -16,7 +16,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 2
+# Bug 2
 
 **How to reproduce:** Check an expense where the payer is not in the split group (e.g., "Uber to airport" paid by Diya ($60) split between Aisha and Ben). Diya paid $60 and consumed $0, but her balance is reduced by $30.
 
@@ -26,7 +26,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 3
+#Bug 3
 
 **How to reproduce:** Look at the Balances panel on the right sidebar. Members with positive net balances (who paid more than they consumed) are shown in red with the label "owes $X.XX", and members with negative net balances are shown in green with the label "is owed $X.XX".
 
@@ -36,7 +36,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 4
+# Bug 4
 
 **How to reproduce:** When a debtor owes the exact same amount that a creditor is owed (for example, Debtor A owes $50 and Creditor B is owed $50), no transfer is shown in the "Settle up" panel for that pair.
 
@@ -46,7 +46,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 5
+# Bug 5
 
 **How to reproduce:** Select any member in the "Paid by" dropdown in the Filter card.
 
@@ -56,7 +56,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 6
+# Bug 6
 
 **How to reproduce:** Filter the list by a category (such as "Stay" or search "Uber"), or view the sorted list. Click "Delete" on the first visible expense.
 
@@ -69,7 +69,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 7
+# Bug 7
 
 **How to reproduce:** Split an expense of $100 equally among 3 people. Each person was assigned $33.33, totaling $99.99, losing $0.01 from the group total.
 
@@ -82,7 +82,7 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 8
+# Bug 8
 
 **How to reproduce:** Add a new member using the "Add member" form in the Summary card.
 
@@ -92,25 +92,25 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
-## Bug 9
-
-**How to reproduce:** Reload the browser page after expenses have been saved to `localStorage`.
-
-**What is wrong:** `loadState` in `src/state/store.js` returned raw `JSON.parse(raw)` when loading from `localStorage`, leaving `date` properties as strings instead of `Date` instances. This caused `formatDate` in `src/lib/format.js` to fail the `date instanceof Date` check, displaying raw unformatted date strings (e.g. `2026-03-12` instead of `12 Mar 2026`).
-
-**What I changed:**
-1. In `src/state/store.js`, wrapped `JSON.parse(raw)` in `hydrate()` so dates are properly reconstructed as `Date` objects on every reload.
-2. In `src/lib/format.js`, enhanced `formatDate` and `dateValue` to safely parse and format both ISO date strings and `Date` instances without timezone offset shifts.
-
----
-
-## Bug 10
+# Bug 9
 
 **How to reproduce:** Edit an expense's amount or reorder/filter the list.
 
 **What is wrong:** `ExpenseRow` initialized its draft input state using `useState(String(expense.amount))` only on component mount. Because `ExpenseList` keyed rows by array `index` rather than unique `expense.id`, React reused component state across reordered items, causing inputs to display stale draft amounts. Additionally, if an expense amount was updated externally, the draft state did not synchronize.
 
-**What I changed:**
+**What I changed:
 1. Keyed `ExpenseRow` by `expense.id` in `src/components/ExpenseList.jsx`.
 2. Added a `useEffect` hook in `ExpenseRow` to keep `draft` synchronized with `expense.amount`.
+
+# Bug 10
+
+**How to reproduce:** Reload the browser page after expenses have been saved to `localStorage`.
+
+What is wrong:** `loadState` in `src/state/store.js` returned raw `JSON.parse(raw)` when loading from `localStorage`, leaving `date` properties as strings instead of `Date` instances. This caused `formatDate` in `src/lib/format.js` to fail the `date instanceof Date` check, displaying raw unformatted date strings (e.g. `2026-03-12` instead of `12 Mar 2026`).
+
+**What I changed:**
+1. In `src/state/store.js`, wrapped `JSON.parse(raw)` in `hydrate()` so dates are properly reconstructed as `Date` objects on every reload.
+2. In `src/lib/format.js`, enhanced `formatDate` and `dateValue` to safely parse and format both ISO date strings and `Date` instances without timezone offset shifts.
+
+
 
