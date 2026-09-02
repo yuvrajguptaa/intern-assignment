@@ -104,9 +104,9 @@ Bug 9
 
 Bug 10
 
-How to reproduce: Reload the browser page after expenses have been saved to `localStorage`.
+**How to reproduce:** Reload the browser page after expenses have been saved to `localStorage`.
 
-What is wrong: `loadState` in `src/state/store.js` returned raw `JSON.parse(raw)` when loading from `localStorage`, leaving `date` properties as strings instead of `Date` instances. This caused `formatDate` in `src/lib/format.js` to fail the `date instanceof Date` check, displaying raw unformatted date strings (e.g. `2026-03-12` instead of `12 Mar 2026`).
+**What is wrong:** `loadState` in `src/state/store.js` returned raw `JSON.parse(raw)` when loading from `localStorage`, leaving `date` properties as strings instead of `Date` instances. This caused `formatDate` in `src/lib/format.js` to fail the `date instanceof Date` check, displaying raw unformatted date strings (e.g. `2026-03-12` instead of `12 Mar 2026`).
 
 What I changed:
 1. In `src/state/store.js`, wrapped `JSON.parse(raw)` in `hydrate()` so dates are properly reconstructed as `Date` objects on every reload.
